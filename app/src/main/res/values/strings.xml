@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Pills</string>
+    <string name="main_reminder_title">Vos rappels du jour</string>
+    <string name="medicine_add_title">Renseigner les informations sur votre médicament</string>
+    <string name="medicine_nom">Nom du médicament</string>
+    <string name="medicine_type">Type de prise</string>
+    <string name="medicine_stock">Quantité du médicament</string>
+    <string name="medicine_fabricant">Fabricant</string>
+    <string name="button_valider">Valider</string>
+    <string name="reminder">Rappels</string>
+    <string name="button_creer_rappel">Créer un rappel</string>
+    <string name="button_supprimer">Supprimer</string>
+    <string name="button_modifier">Modifier</string>
+    <string name="medicine_list_title">Vos médicaments enregistrés</string>
+    <string name="button_ajouter">Ajouter</string>
 </resources>
