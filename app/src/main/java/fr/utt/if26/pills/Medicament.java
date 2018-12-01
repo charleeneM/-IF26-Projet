@@ -4,18 +4,18 @@ public class Medicament {
     private Integer id; // à voir si vraiment utile ici
     private String nom;
     private String fabricant;
-    private Enum type; // déclaration à corriger
+    private String type; // déclaration à corriger
     private Double stock;
 
     public Medicament() {
         this.id = 0;
         this.nom = "nom";
         this.fabricant = "fabricant";
-        //this.type = "type";
+        this.type = "type";
         this.stock = 0.0;
     }
 
-    public Medicament(Integer id, String nom, String fabricant, Enum type, Double stock) {
+    public Medicament(Integer id, String nom, String fabricant, String type, Double stock) {
         this.id = id;
         this.nom = nom;
         this.fabricant = fabricant;
@@ -47,11 +47,11 @@ public class Medicament {
         this.fabricant = fabricant;
     }
 
-    public Enum getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Enum type) {
+    public void setType(String type) {
         this.type = type;
     }
 
