@@ -50,7 +50,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
 
         SQLiteDatabase database = this.getWritableDatabase();
 
-        values.put(ATTRIBUT_ID_MEDICAMENT, ""); //vérifier pour l'auto incrementation
+        values.put(ATTRIBUT_ID_MEDICAMENT, m.getId()); //vérifier pour l'auto incrementation
         values.put(ATTRIBUT_NOM, m.getNom());
         values.put(ATTRIBUT_FABRICANT, m.getFabricant());
         values.put(ATTRIBUT_TYPE, m.getType());
@@ -72,6 +72,15 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
             for (Module module : modules) {
                 addModule(module);
             }*/
+
+            //Tests
+            Medicament med1 = new Medicament(null,"Med1", "test", "Pillule", 25.0);
+            Medicament med2 = new Medicament(null,"Med2", "fab", "Sirop", 33.5);
+            Medicament med3 = new Medicament(null,"Med3", "boiron", "granules", 100.0);
+
+            addMedicament(med1);
+            addMedicament(med2);
+            addMedicament(med3);
         }
     }
 
@@ -92,13 +101,13 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         // A compléter
     }
 
-    public Medicament getMedicament(String key) {
+    public Medicament getMedicament(Integer key) {
         Medicament medicament = new Medicament();
 
         String query = "SELECT * FROM " + TABLE_MEDICAMENT + " WHERE " + ATTRIBUT_ID_MEDICAMENT + " = ?";
 
         SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery(query, new String[]{key}); //pas sur que ce soit correct / pbm avec le fait que la clé est un int
+        Cursor cursor = database.rawQuery(query, new String[]{(String.valueOf(key))}); //pas sur que ce soit correct / pbm avec le fait que la clé est un int
 
         while (cursor.moveToNext()) {
             //System.out.println(cursor.getInt(0));
