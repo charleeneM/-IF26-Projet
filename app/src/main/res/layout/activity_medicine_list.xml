@@ -29,6 +29,7 @@
             android:orientation="vertical">
 
             <ListView
+                android:id="@+id/medicine_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="350dp" />
         </LinearLayout>

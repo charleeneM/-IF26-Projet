@@ -33,14 +33,21 @@ public class MedicineAddActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        Medicament med = new Medicament();
+
         String nomMed = (String) et_medicine_nom.getText().toString();
         //a voir suivant le type de type
         String typeMed = (String) et_medicine_type.getText().toString();
-        //caster en float
-        String stockMed = (String) et_medicine_stock.getText().toString();
+        Double stockMed = (Double) Double.parseDouble(String.valueOf(et_medicine_stock.getText()));
         String fabricantMed = (String) et_medicine_fabricant.getText().toString();
 
-        //To do : persistance du médicament dans la table
+        med.setNom(nomMed);
+        med.setFabricant(fabricantMed);
+        med.setType(typeMed);
+        med.setStock(stockMed);
+
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+        persistance.addMedicament(med);
 
         Intent medicineAddActivityIntent = new Intent(MedicineAddActivity.this, MainActivity.class);
         startActivity(medicineAddActivityIntent);

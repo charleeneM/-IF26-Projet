@@ -8,7 +8,7 @@ public class Medicament {
     private Double stock;
 
     public Medicament() {
-        this.id = 0;
+        this.id = null;
         this.nom = "nom";
         this.fabricant = "fabricant";
         this.type = "type";
