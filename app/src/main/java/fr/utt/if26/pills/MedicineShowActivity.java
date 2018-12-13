@@ -21,10 +21,15 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_show);
 
+        String nomMed = getIntent().getStringExtra("nomMed");
+        String fabricantMed = getIntent().getStringExtra("fabricantMed");
+        String typeMed = getIntent().getStringExtra("typeMed");
+        String stockMed = (String) String.valueOf(getIntent().getDoubleExtra("stockMed", 0));
+
         tv_medicine_nom = (TextView) findViewById(R.id.medicine_show_tv_nom);
         tv_medicine_fabricant = (TextView) findViewById(R.id.medicine_show_tv_fabricant);
-        tv_medicine_type = (TextView) findViewById(R.id.medicine_show_tv_type);
-        tv_medicine_stock = (TextView) findViewById(R.id.medicine_show_tv_stock);
+        tv_medicine_type = (TextView) findViewById(R.id.medicine_show_tv_type_value);
+        tv_medicine_stock = (TextView) findViewById(R.id.medicine_show_tv_stock_value);
 
         button_rappel = (Button) findViewById(R.id.medicine_show_button_rappel);
         button_supprimer = (Button) findViewById(R.id.medicine_show_button_supprimer);
@@ -33,6 +38,11 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
         button_rappel.setOnClickListener(this);
         button_supprimer.setOnClickListener(this);
         button_modifier.setOnClickListener(this);
+
+        tv_medicine_nom.setText(nomMed);
+        tv_medicine_fabricant.setText(fabricantMed);
+        tv_medicine_type.setText(typeMed);
+        tv_medicine_stock.setText(stockMed);
     }
 
     @Override
