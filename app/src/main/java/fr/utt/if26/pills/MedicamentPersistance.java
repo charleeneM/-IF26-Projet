@@ -84,7 +84,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         }
     }
 
-    public void deleteMedicamant(Medicament m) {
+    public void deleteMedicament(Medicament m) {
         Medicament medicament = new Medicament();
 
         String query = "DELETE FROM " + TABLE_MEDICAMENT + " WHERE " + ATTRIBUT_ID_MEDICAMENT + " = ?";

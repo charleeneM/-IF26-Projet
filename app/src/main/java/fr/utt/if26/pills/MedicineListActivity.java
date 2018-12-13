@@ -39,16 +39,19 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
                 Log.i("test","Position=" + position);
 
                 Medicament med = (Medicament) listeMedicaments.getItemAtPosition(position);
-                String nom = med.getNom();
+                /*String nom = med.getNom();
                 String fabricant = med.getFabricant();
                 String type = med.getType();
-                Double stock = med.getStock();
+                Double stock = med.getStock();*/
 
                 Intent medicineShowActivityIntent = new Intent(MedicineListActivity.this, MedicineShowActivity.class);
-                medicineShowActivityIntent.putExtra("nomMed", nom);
+
+                /*medicineShowActivityIntent.putExtra("nomMed", nom);
                 medicineShowActivityIntent.putExtra("fabricantMed", fabricant);
                 medicineShowActivityIntent.putExtra("typeMed", type);
-                medicineShowActivityIntent.putExtra("stockMed", stock);
+                medicineShowActivityIntent.putExtra("stockMed", stock);*/
+
+                medicineShowActivityIntent.putExtra("med", med);
                 startActivity(medicineShowActivityIntent);
             }
         });

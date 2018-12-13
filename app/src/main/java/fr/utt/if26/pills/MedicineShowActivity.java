@@ -1,11 +1,13 @@
 package fr.utt.if26.pills;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MedicineShowActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tv_medicine_nom;
@@ -16,15 +18,20 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
     private Button button_supprimer;
     private Button button_modifier;
 
+    Medicament med;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_show);
 
+        /*
         String nomMed = getIntent().getStringExtra("nomMed");
         String fabricantMed = getIntent().getStringExtra("fabricantMed");
         String typeMed = getIntent().getStringExtra("typeMed");
-        String stockMed = (String) String.valueOf(getIntent().getDoubleExtra("stockMed", 0));
+        String stockMed = (String) String.valueOf(getIntent().getDoubleExtra("stockMed", 0));*/
+
+        med = (Medicament) getIntent().getSerializableExtra("med");
 
         tv_medicine_nom = (TextView) findViewById(R.id.medicine_show_tv_nom);
         tv_medicine_fabricant = (TextView) findViewById(R.id.medicine_show_tv_fabricant);
@@ -39,9 +46,10 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
         button_supprimer.setOnClickListener(this);
         button_modifier.setOnClickListener(this);
 
-        tv_medicine_nom.setText(nomMed);
-        tv_medicine_fabricant.setText(fabricantMed);
-        tv_medicine_type.setText(typeMed);
+        tv_medicine_nom.setText(med.getNom());
+        tv_medicine_fabricant.setText(med.getFabricant());
+        tv_medicine_type.setText(med.getType());
+        String stockMed = (String) String.valueOf(med.getStock());
         tv_medicine_stock.setText(stockMed);
     }
 
@@ -52,11 +60,25 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.medicine_show_button_supprimer:
+                this.deleteMedicineShow();
                 break;
 
             case R.id.medicine_show_button_modifier:
                 break;
         }
 
+    }
+
+    private void deleteMedicineShow(){
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+
+        System.out.println(med);
+
+        persistance.deleteMedicament(med);
+
+        Intent deleteMedicineShowActivity = new Intent(MedicineShowActivity.this, MedicineListActivity.class);
+        startActivity(deleteMedicineShowActivity);
+
+        Toast.makeText(this, "Le médicament a bien été supprimé", Toast.LENGTH_LONG).show();
     }
 }

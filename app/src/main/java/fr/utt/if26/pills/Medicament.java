@@ -1,6 +1,8 @@
 package fr.utt.if26.pills;
 
-public class Medicament {
+import java.io.Serializable;
+
+public class Medicament implements Serializable {
     private Integer id; // à voir si vraiment utile ici
     private String nom;
     private String fabricant;
