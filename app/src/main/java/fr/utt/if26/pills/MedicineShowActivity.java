@@ -64,6 +64,7 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.medicine_show_button_modifier:
+                this.updateMedicineShow();
                 break;
         }
 
@@ -71,14 +72,17 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
 
     private void deleteMedicineShow(){
         MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
-
-        System.out.println(med);
-
         persistance.deleteMedicament(med);
 
         Intent deleteMedicineShowActivity = new Intent(MedicineShowActivity.this, MedicineListActivity.class);
         startActivity(deleteMedicineShowActivity);
 
         Toast.makeText(this, "Le médicament a bien été supprimé", Toast.LENGTH_LONG).show();
+    }
+
+    private void updateMedicineShow(){
+        Intent updateMedicineShowActivity = new Intent(MedicineShowActivity.this, MedicineUpdateActivity.class);
+        updateMedicineShowActivity.putExtra("med", med);
+        startActivity(updateMedicineShowActivity);
     }
 }

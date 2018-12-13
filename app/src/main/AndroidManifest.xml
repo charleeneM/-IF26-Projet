@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".MedicineAddActivity" />
         <activity android:name=".MedicineShowActivity" />
-        <activity android:name=".MedicineListActivity"></activity>
+        <activity android:name=".MedicineListActivity" />
+        <activity android:name=".MedicineUpdateActivity"></activity>
     </application>
 
 </manifest>

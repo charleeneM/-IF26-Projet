@@ -85,8 +85,6 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     }
 
     public void deleteMedicament(Medicament m) {
-        Medicament medicament = new Medicament();
-
         String query = "DELETE FROM " + TABLE_MEDICAMENT + " WHERE " + ATTRIBUT_ID_MEDICAMENT + " = ?";
 
         System.out.println(query);
@@ -98,7 +96,22 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     }
 
     public void updateMedicament(Medicament m) {
-        // A compléter
+        ContentValues values = new ContentValues();
+        System.out.println("Medicament à modifier : " + m);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        values.put(ATTRIBUT_NOM, m.getNom());
+        values.put(ATTRIBUT_FABRICANT, m.getFabricant());
+        values.put(ATTRIBUT_TYPE, m.getType());
+        values.put(ATTRIBUT_STOCK, m.getStock());
+
+        String selection = ATTRIBUT_ID_MEDICAMENT + " LIKE ?";
+        String id_med = (String) String.valueOf(m.getId());
+        String[] selectionArgs = {id_med};
+
+        database.update(TABLE_MEDICAMENT, values, selection, selectionArgs);
+
     }
 
     public Medicament getMedicament(Integer key) {
@@ -107,10 +120,9 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_MEDICAMENT + " WHERE " + ATTRIBUT_ID_MEDICAMENT + " = ?";
 
         SQLiteDatabase database = this.getWritableDatabase();
-        Cursor cursor = database.rawQuery(query, new String[]{(String.valueOf(key))}); //pas sur que ce soit correct / pbm avec le fait que la clé est un int
+        Cursor cursor = database.rawQuery(query, new String[]{(String.valueOf(key))});
 
         while (cursor.moveToNext()) {
-            //System.out.println(cursor.getInt(0));
             medicament.setId(cursor.getInt(0));
             medicament.setNom(cursor.getString(1));
             medicament.setFabricant(cursor.getString(2));
