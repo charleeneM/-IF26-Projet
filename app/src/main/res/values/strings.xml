@@ -13,4 +13,6 @@
     <string name="button_modifier">Modifier</string>
     <string name="medicine_list_title">Vos médicaments enregistrés</string>
     <string name="button_ajouter">Ajouter</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
