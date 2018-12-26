@@ -15,4 +15,7 @@
     <string name="button_ajouter">Ajouter</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="aujourd_hui">Aujourd\'hui</string>
+    <string name="mes_medicaments">Mes médicaments</string>
+    <string name="mes_rappels">Mes rappels</string>
 </resources>
