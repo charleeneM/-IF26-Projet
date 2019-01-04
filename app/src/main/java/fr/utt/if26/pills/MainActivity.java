@@ -3,6 +3,7 @@ package fr.utt.if26.pills;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,37 +18,27 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
-    Button button;
-    
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    //Menu
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    ///
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Bouton à enlever une fois que le menu sera créé
-        button = (Button) findViewById(R.id.button_medicaments);
-        button.setOnClickListener(this);
-
+        // Pour le menu
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent medicamentsActivityIntent = new Intent(MainActivity.this, MedicineListActivity.class);
-        startActivity(medicamentsActivityIntent);
-
-    }
-
-
     // ---------------------
-    // CONFIGURATION
+    // CONFIGURATION - MENU
     // ---------------------
 
     // 1 - Configure Toolbar
@@ -113,4 +104,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent aujourdhuiActivityIntent = new Intent(MainActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
     }
-}
+
+    }

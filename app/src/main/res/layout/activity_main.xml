@@ -35,11 +35,6 @@
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                android:id="@+id/button_medicaments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Medicaments" />
 
             <TextView
                 android:id="@+id/main_tv_title"
