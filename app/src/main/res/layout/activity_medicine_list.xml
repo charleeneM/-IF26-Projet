@@ -32,13 +32,15 @@
             android:id="@+id/medicine_list_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/medicine_list_title"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            android:layout_height="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +61,11 @@
             android:id="@+id/medicine_list_button_ajouter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_ajouter" />
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="120dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_ajouter"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

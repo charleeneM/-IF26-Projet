@@ -31,17 +31,17 @@ public class AdaptateurMedicament extends ArrayAdapter<Medicament> {
         View v = inflater.inflate(ressource, parent, false);
 
         Medicament elt = list.get(position);
-        TextView tv_med_id= (TextView) v.findViewById(R.id.medicament_id);
+        //TextView tv_med_id= (TextView) v.findViewById(R.id.medicament_id);
         TextView tv_med_nom = (TextView) v.findViewById(R.id.medicament_nom);
         TextView tv_med_fabricant= (TextView) v.findViewById(R.id.medicament_fabricant);
-        TextView tv_med_type= (TextView) v.findViewById(R.id.medicament_type);
-        TextView tv_med_stock= (TextView) v.findViewById(R.id.medicament_stock);
+        //TextView tv_med_type= (TextView) v.findViewById(R.id.medicament_type);
+       // TextView tv_med_stock= (TextView) v.findViewById(R.id.medicament_stock);
 
-        tv_med_id.setText(new String(String.valueOf(elt.getId())));
+        ////tv_med_id.setText(new String(String.valueOf(elt.getId())));
         tv_med_nom.setText(elt.getNom());
         tv_med_fabricant.setText(elt.getFabricant());
-        tv_med_type.setText(elt.getType());
-        tv_med_stock.setText(new String(String.valueOf(elt.getStock())));
+        //tv_med_type.setText(elt.getType());
+        //tv_med_stock.setText(new String(String.valueOf(elt.getStock())));
 
         return v;
     }

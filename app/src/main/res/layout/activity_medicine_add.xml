@@ -122,9 +122,13 @@
 
             <Button
                 android:id="@+id/medicine_add_button_valider"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
+                android:layout_marginRight="120dp"
+                android:background="@color/colorPrimary"
                 android:text="@string/button_valider"
+                android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
         </LinearLayout>
