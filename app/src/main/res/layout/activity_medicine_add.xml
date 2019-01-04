@@ -1,118 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
     tools:context=".MedicineAddActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="8dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/medicine_add_tv_title"
+        <!-- Toolbar -->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/activity_main_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/medicine_add_title"
-            android:textAlignment="viewStart"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/ToolBarStyle"/>
 
-        <Space
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/medicine_add_tv_nom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/medicine_nom"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/medicine_add_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medicine_add_title"
+                android:textAlignment="viewStart"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/medicine_add_et_nom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Nom du médicament"
-            android:textSize="17sp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/medicine_add_tv_nom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medicine_nom"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/medicine_add_tv_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/medicine_type"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/medicine_add_et_nom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="17sp" />
 
-        <EditText
-            android:id="@+id/medicine_add_et_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Type"
-            android:textSize="17sp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/medicine_add_tv_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medicine_type"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/medicine_add_tv_stock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/medicine_stock"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/medicine_add_et_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="17sp" />
 
-        <EditText
-            android:id="@+id/medicine_add_et_stock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:text="Quantité"
-            android:textSize="17sp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/medicine_add_tv_stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medicine_stock"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/medicine_add_tv_fabricant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/medicine_fabricant"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/medicine_add_et_stock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:textSize="17sp" />
 
-        <EditText
-            android:id="@+id/medicine_add_et_fabricant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Fabricant"
-            android:textSize="17sp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/medicine_add_tv_fabricant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medicine_fabricant"
+                android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/medicine_add_button_valider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_valider"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/medicine_add_et_fabricant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textSize="17sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25dp" />
+
+            <Button
+                android:id="@+id/medicine_add_button_valider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_valider"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_view"
+        app:headerLayout="@layout/nav_header"/>
+
+</android.support.v4.widget.DrawerLayout>
