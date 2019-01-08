@@ -13,7 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MedicineAddActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     //Menu
@@ -44,8 +47,8 @@ public class MedicineAddActivity extends AppCompatActivity implements View.OnCli
         et_medicine_type = (EditText) findViewById(R.id.medicine_add_et_type);
         et_medicine_stock = (EditText) findViewById(R.id.medicine_add_et_stock);
         et_medicine_fabricant = (EditText) findViewById(R.id.medicine_add_et_fabricant);
-        button_valider = (Button) findViewById(R.id.medicine_add_button_valider);
 
+        button_valider = (Button) findViewById(R.id.medicine_add_button_valider);
         button_valider.setOnClickListener(this);
     }
 
@@ -56,21 +59,33 @@ public class MedicineAddActivity extends AppCompatActivity implements View.OnCli
         String nomMed = (String) et_medicine_nom.getText().toString();
         //a voir suivant le type de type
         String typeMed = (String) et_medicine_type.getText().toString();
-        Double stockMed = (Double) Double.parseDouble(String.valueOf(et_medicine_stock.getText()));
+        String stockMedIntermediaire = (String) et_medicine_stock.getText().toString();
+
+        Double stockMed = 0.0;
+        if(!stockMedIntermediaire.isEmpty()){
+            stockMed = (Double) Double.parseDouble(String.valueOf(stockMedIntermediaire));
+        }
         String fabricantMed = (String) et_medicine_fabricant.getText().toString();
 
-        med.setNom(nomMed);
-        med.setFabricant(fabricantMed);
-        med.setType(typeMed);
-        med.setStock(stockMed);
+        //Vérifie que le nom du médicament a été renseigné
+        if(!nomMed.isEmpty()){
+            med.setNom(nomMed);
+            med.setFabricant(fabricantMed);
+            med.setType(typeMed);
+            med.setStock(stockMed);
 
-        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
-        persistance.addMedicament(med);
+            MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+            persistance.addMedicament(med);
 
-        Intent medicineAddActivityIntent = new Intent(MedicineAddActivity.this, MainActivity.class);
-        startActivity(medicineAddActivityIntent);
+            Intent medicineAddActivityIntent = new Intent(MedicineAddActivity.this, MainActivity.class);
+            startActivity(medicineAddActivityIntent);
 
-        Toast.makeText(this, "Le médicament a bien été ajouté", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Le médicament a bien été ajouté", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Veuillez renseigner les champs obligatoires", Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
 

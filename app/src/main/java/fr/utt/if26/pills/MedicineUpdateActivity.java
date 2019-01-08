@@ -63,21 +63,32 @@ public class MedicineUpdateActivity extends AppCompatActivity implements View.On
         String nomMed = (String) et_medicine_nom.getText().toString();
         //a voir suivant le type de type
         String typeMed = (String) et_medicine_type.getText().toString();
-        Double stockMed = (Double) Double.parseDouble(String.valueOf(et_medicine_stock.getText()));
+
+        String stockMedIntermediaire = (String) et_medicine_stock.getText().toString();
+        Double stockMed = 0.0;
+        if(!stockMedIntermediaire.isEmpty()){
+            stockMed = (Double) Double.parseDouble(String.valueOf(stockMedIntermediaire));
+        }
         String fabricantMed = (String) et_medicine_fabricant.getText().toString();
 
-        med.setNom(nomMed);
-        med.setFabricant(fabricantMed);
-        med.setType(typeMed);
-        med.setStock(stockMed);
+        //Vérifie que le nom du médicament a été renseigné
+        if(!nomMed.isEmpty()){
+            med.setNom(nomMed);
+            med.setFabricant(fabricantMed);
+            med.setType(typeMed);
+            med.setStock(stockMed);
 
-        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
-        persistance.updateMedicament(med);
+            MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+            persistance.updateMedicament(med);
 
-        Intent medicineUpdateActivityIntent = new Intent(MedicineUpdateActivity.this, MedicineListActivity.class);
-        startActivity(medicineUpdateActivityIntent);
+            Intent medicineUpdateActivityIntent = new Intent(MedicineUpdateActivity.this, MedicineListActivity.class);
+            startActivity(medicineUpdateActivityIntent);
 
-        Toast.makeText(this, "Le médicament a bien été modifié", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Le médicament a bien été modifié", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Veuillez renseigner les champs obligatoires", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     // ---------------------

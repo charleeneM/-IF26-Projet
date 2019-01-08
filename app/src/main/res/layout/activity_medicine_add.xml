@@ -20,8 +20,8 @@
             android:id="@+id/activity_main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:theme="@style/ToolBarStyle"/>
+            android:background="@color/colorPrimary"
+            app:theme="@style/ToolBarStyle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,7 +76,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:autofillHints="" />
 
             <Space
                 android:layout_width="match_parent"
@@ -126,10 +127,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="120dp"
                 android:layout_marginRight="120dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/colorPrimary"
                 android:text="@string/button_valider"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/medicine_add_tv_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/champs_obligatoires"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textStyle="italic" />
 
         </LinearLayout>
 

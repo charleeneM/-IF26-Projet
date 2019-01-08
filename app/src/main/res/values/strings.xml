@@ -2,7 +2,7 @@
     <string name="app_name">Pills</string>
     <string name="main_reminder_title">Vos rappels du jour</string>
     <string name="medicine_add_title">Renseigner les informations sur votre médicament</string>
-    <string name="medicine_nom">Nom du médicament</string>
+    <string name="medicine_nom">Nom du médicament*</string>
     <string name="medicine_type">Type de prise</string>
     <string name="medicine_stock">Quantité du médicament</string>
     <string name="medicine_fabricant">Fabricant</string>
@@ -18,4 +18,5 @@
     <string name="aujourd_hui">Aujourd\'hui</string>
     <string name="mes_medicaments">Mes médicaments</string>
     <string name="mes_rappels">Mes rappels</string>
+    <string name="champs_obligatoires">*champs obligatoires</string>
 </resources>
