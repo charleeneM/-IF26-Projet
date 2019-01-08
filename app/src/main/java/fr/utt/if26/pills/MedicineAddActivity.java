@@ -127,6 +127,8 @@ public class MedicineAddActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.nav_rappels:
                 break;
+            case R.id.nav_donnees_perso:
+                this.openDonneesPersonnelles();
             default:
                 break;
         }
@@ -154,5 +156,10 @@ public class MedicineAddActivity extends AppCompatActivity implements View.OnCli
     private void openAujourdhui(){
         Intent aujourdhuiActivityIntent = new Intent(MedicineAddActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
+    }
+
+    private void openDonneesPersonnelles(){
+        Intent donneesPersoActivityIntent = new Intent(MedicineAddActivity.this, PersonalDataActivity.class);
+        startActivity(donneesPersoActivityIntent);
     }
 }

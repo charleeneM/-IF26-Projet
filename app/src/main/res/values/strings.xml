@@ -19,4 +19,10 @@
     <string name="mes_medicaments">Mes médicaments</string>
     <string name="mes_rappels">Mes rappels</string>
     <string name="champs_obligatoires">*champs obligatoires</string>
+    <string name="donnees_perso">Données Personnelles</string>
+    <string name="data_title">Vos données personnelles</string>
+    <string name="data_consulter_description">Vous pouvez consulter l\'ensemble de vos données sauvegardées.</string>
+    <string name="data_consulter_button">Consulter mes données</string>
+    <string name="data_delete_description">Vous pouvez supprimer l\'ensemble de vos données. Une fois supprimées, les données ne peuvent pas être récupérées.</string>
+    <string name="data_delete_button">Supprimer toutes mes données</string>
 </resources>

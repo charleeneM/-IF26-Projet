@@ -30,6 +30,9 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     final String table_medicament_delete =
             "DROP TABLE IF EXISTS " + TABLE_MEDICAMENT;
 
+    final String table_medicament_delete_all =
+            "DELETE FROM " + TABLE_MEDICAMENT;
+
     public MedicamentPersistance(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -66,14 +69,8 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         if (this.getAllMedicaments().isEmpty()) {
             this.onUpgrade(this.getWritableDatabase(), 1, 2);
 
-            //pas d'initialisation dans notre cas
-            /*
-            ArrayList<Module> modules = new Cursus().getModules();
-            for (Module module : modules) {
-                addModule(module);
-            }*/
-
             //Tests
+            /*
             Medicament med1 = new Medicament(null,"Med1", "test", "Pillule", 25.0);
             Medicament med2 = new Medicament(null,"Med2", "fab", "Sirop", 33.5);
             Medicament med3 = new Medicament(null,"Med3", "boiron", "granules", 100.0);
@@ -81,7 +78,15 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
             addMedicament(med1);
             addMedicament(med2);
             addMedicament(med3);
+            */
         }
+    }
+
+    public void deleteAllMedicaments(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(table_medicament_delete_all);
+
+        db.close();
     }
 
     public void deleteMedicament(Medicament m) {
