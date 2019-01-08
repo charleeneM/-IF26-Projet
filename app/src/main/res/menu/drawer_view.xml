@@ -14,4 +14,10 @@
             android:id="@+id/nav_rappels"
             android:title="@string/mes_rappels" />
     </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_donnees_perso"
+            android:title="@string/donnees_perso" />
+    </group>
 </menu>

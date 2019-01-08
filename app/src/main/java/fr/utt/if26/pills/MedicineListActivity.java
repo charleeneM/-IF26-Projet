@@ -113,6 +113,8 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.nav_rappels:
                 break;
+            case R.id.nav_donnees_perso:
+                this.openDonneesPersonnelles();
             default:
                 break;
         }
@@ -140,5 +142,10 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
     private void openAujourdhui(){
         Intent aujourdhuiActivityIntent = new Intent(MedicineListActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
+    }
+
+    private void openDonneesPersonnelles(){
+        Intent donneesPersoActivityIntent = new Intent(MedicineListActivity.this, PersonalDataActivity.class);
+        startActivity(donneesPersoActivityIntent);
     }
 }

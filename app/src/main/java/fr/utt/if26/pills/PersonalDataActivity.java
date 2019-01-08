@@ -12,28 +12,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-public class MedicineUpdateActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class PersonalDataActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     //Menu
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
     ///
 
-    private EditText et_medicine_nom;
-    private EditText et_medicine_type;
-    private EditText et_medicine_stock;
-    private EditText et_medicine_fabricant;
-    private Button button_valider;
-
-    Medicament med;
+    private Button button_consulter_data;
+    private Button button_delete_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medicine_add);
+        setContentView(R.layout.activity_personal_data);
 
         // Pour le menu
         this.configureToolBar();
@@ -41,54 +35,39 @@ public class MedicineUpdateActivity extends AppCompatActivity implements View.On
         this.configureNavigationView();
         ///
 
-        med = (Medicament) getIntent().getSerializableExtra("med");
+        button_consulter_data = (Button) findViewById(R.id.data_button_consulter);
+        button_delete_data = (Button) findViewById(R.id.data_button_delete);
 
-        et_medicine_nom = (EditText) findViewById(R.id.medicine_add_et_nom);
-        et_medicine_type = (EditText) findViewById(R.id.medicine_add_et_type);
-        et_medicine_stock = (EditText) findViewById(R.id.medicine_add_et_stock);
-        et_medicine_fabricant = (EditText) findViewById(R.id.medicine_add_et_fabricant);
-        button_valider = (Button) findViewById(R.id.medicine_add_button_valider);
-
-        et_medicine_nom.setText(med.getNom());
-        et_medicine_fabricant.setText(med.getFabricant());
-        et_medicine_type.setText(med.getType());
-        String stockMed = (String) String.valueOf(med.getStock());
-        et_medicine_stock.setText(stockMed);
-
-        button_valider.setOnClickListener(this);
+        button_consulter_data.setOnClickListener(this);
+        button_delete_data.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        String nomMed = (String) et_medicine_nom.getText().toString();
-        //a voir suivant le type de type
-        String typeMed = (String) et_medicine_type.getText().toString();
+        switch (v.getId()) {
+            case R.id.data_button_consulter:
+                this.consulterAllData();
+                break;
 
-        String stockMedIntermediaire = (String) et_medicine_stock.getText().toString();
-        Double stockMed = 0.0;
-        if(!stockMedIntermediaire.isEmpty()){
-            stockMed = (Double) Double.parseDouble(String.valueOf(stockMedIntermediaire));
-        }
-        String fabricantMed = (String) et_medicine_fabricant.getText().toString();
-
-        //Vérifie que le nom du médicament a été renseigné
-        if(!nomMed.isEmpty()){
-            med.setNom(nomMed);
-            med.setFabricant(fabricantMed);
-            med.setType(typeMed);
-            med.setStock(stockMed);
-
-            MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
-            persistance.updateMedicament(med);
-
-            Intent medicineUpdateActivityIntent = new Intent(MedicineUpdateActivity.this, MedicineListActivity.class);
-            startActivity(medicineUpdateActivityIntent);
-
-            Toast.makeText(this, "Le médicament a bien été modifié", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "Veuillez renseigner les champs obligatoires", Toast.LENGTH_LONG).show();
+            case R.id.data_button_delete:
+                this.deleteAllData();
+                break;
+            default:
+                break;
         }
 
+    }
+
+    private void consulterAllData(){
+        Intent consulterDataActivityIntent = new Intent(PersonalDataActivity.this, PersonalDataListActivity.class);
+        startActivity(consulterDataActivityIntent);
+    }
+
+    private void deleteAllData(){
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+        persistance.deleteAllMedicaments();
+
+        Toast.makeText(this, "Toutes les données ont été supprimées", Toast.LENGTH_LONG).show();
     }
 
     // ---------------------
@@ -151,17 +130,17 @@ public class MedicineUpdateActivity extends AppCompatActivity implements View.On
     }
 
     private void openMesMedicaments(){
-        Intent medicamentsActivityIntent = new Intent(MedicineUpdateActivity.this, MedicineListActivity.class);
+        Intent medicamentsActivityIntent = new Intent(PersonalDataActivity.this, MedicineListActivity.class);
         startActivity(medicamentsActivityIntent);
     }
 
     private void openAujourdhui(){
-        Intent aujourdhuiActivityIntent = new Intent(MedicineUpdateActivity.this, MainActivity.class);
+        Intent aujourdhuiActivityIntent = new Intent(PersonalDataActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
     }
 
     private void openDonneesPersonnelles(){
-        Intent donneesPersoActivityIntent = new Intent(MedicineUpdateActivity.this, PersonalDataActivity.class);
+        Intent donneesPersoActivityIntent = new Intent(PersonalDataActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
     }
 }
