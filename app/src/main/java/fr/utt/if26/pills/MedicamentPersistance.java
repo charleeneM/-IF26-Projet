@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class MedicamentPersistance extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pills.db";
+
+    //Table medicament
     private static final String TABLE_MEDICAMENT = "medicament";
     private static final String ATTRIBUT_ID_MEDICAMENT = "id_medicament";
     private static final String ATTRIBUT_NOM = "nom";
@@ -33,6 +35,34 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     final String table_medicament_delete_all =
             "DELETE FROM " + TABLE_MEDICAMENT;
 
+    //Table rappel
+    private static final String TABLE_RAPPEL= "rappel";
+    private static final String ATTRIBUT_ID_RAPPEL = "id_rappel";
+    private static final String ATTRIBUT_ID_MED = "id_med";
+    private static final String ATTRIBUT_HEURE = "heure";
+    private static final String ATTRIBUT_REPETITION = "repetition";
+    private static final String ATTRIBUT_STATUT = "statut";
+    private static final String ATTRIBUT_DERNIER_RAPPEL = "dernier_rappel";
+
+    final String table_rappel_create =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_RAPPEL + "(" +
+                    ATTRIBUT_ID_RAPPEL + " INTEGER primary key AUTOINCREMENT," +
+                    ATTRIBUT_ID_MED + " INTEGER not null, " +
+                    ATTRIBUT_HEURE + " TEXT, " +  //Date au format "YYYY-MM-DD HH:MM:SS.SSS"
+                    ATTRIBUT_REPETITION + " INTEGER DEFAULT 1, " +
+                    ATTRIBUT_STATUT + " INTEGER DEFAULT 0, " + //Booléen : 0 pour false et 1 pour true
+                    ATTRIBUT_DERNIER_RAPPEL + " TEXT, " + //Date au format "YYYY-MM-DD HH:MM:SS.SSS"
+                    " FOREIGN KEY(" + ATTRIBUT_ID_MED + ") REFERENCES " + TABLE_MEDICAMENT + "(" + ATTRIBUT_ID_MEDICAMENT + ") " +
+            ")";
+
+    final String table_rappel_delete =
+            "DROP TABLE IF EXISTS " + TABLE_RAPPEL;
+
+    final String table_rappel_delete_all =
+            "DELETE FROM " + TABLE_RAPPEL;
+
+    ///////
+
     public MedicamentPersistance(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
@@ -40,10 +70,12 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(table_medicament_create);
+        db.execSQL(table_rappel_create);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(table_rappel_delete);
         db.execSQL(table_medicament_delete);
         onCreate(db);
     }
@@ -53,7 +85,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
 
         SQLiteDatabase database = this.getWritableDatabase();
 
-        values.put(ATTRIBUT_ID_MEDICAMENT, m.getId()); //vérifier pour l'auto incrementation
+        values.put(ATTRIBUT_ID_MEDICAMENT, m.getId());
         values.put(ATTRIBUT_NOM, m.getNom());
         values.put(ATTRIBUT_FABRICANT, m.getFabricant());
         values.put(ATTRIBUT_TYPE, m.getType());
@@ -61,6 +93,23 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
 
         //System.out.println(values);
         database.insert(TABLE_MEDICAMENT, null, values);
+        database.close();
+    }
+
+    public void addRappel(Rappel r) {
+        ContentValues values = new ContentValues();
+
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        values.put(ATTRIBUT_ID_RAPPEL, r.getId_rappel());
+        values.put(ATTRIBUT_ID_MED, r.getId_med());
+        values.put(ATTRIBUT_HEURE, r.getHeure());
+        values.put(ATTRIBUT_REPETITION, r.getRepetition());
+        values.put(ATTRIBUT_STATUT, r.getStatut());
+        values.put(ATTRIBUT_DERNIER_RAPPEL, r.getDernier_rappel());
+
+        System.out.println(values);
+        database.insert(TABLE_RAPPEL, null, values);
         database.close();
     }
 
@@ -83,19 +132,50 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     }
 
     public void deleteAllMedicaments(){
+        this.deleteAllRappels();
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(table_medicament_delete_all);
 
         db.close();
     }
 
+    public void deleteAllRappels(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(table_rappel_delete_all);
+
+        db.close();
+    }
+
     public void deleteMedicament(Medicament m) {
+        this.deleteRappelFromMedicament(m);
         String query = "DELETE FROM " + TABLE_MEDICAMENT + " WHERE " + ATTRIBUT_ID_MEDICAMENT + " = ?";
 
         System.out.println(query);
 
         SQLiteDatabase database = this.getWritableDatabase();
         database.execSQL(query, new Integer[]{m.getId()});
+
+        database.close();
+    }
+
+    public void deleteRappelFromMedicament(Medicament m) {
+        String query = "DELETE FROM " + TABLE_RAPPEL + " WHERE " + ATTRIBUT_ID_MED + " = ?";
+
+        System.out.println(query);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL(query, new Integer[]{m.getId()});
+
+        database.close();
+    }
+
+    public void deleteRappel(Rappel r) {
+        String query = "DELETE FROM " + TABLE_RAPPEL + " WHERE " + ATTRIBUT_ID_RAPPEL + " = ?";
+
+        System.out.println(query);
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.execSQL(query, new Integer[]{r.getId_rappel()});
 
         database.close();
     }
@@ -119,6 +199,8 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
 
     }
 
+    //Faire update rappel
+
     public Medicament getMedicament(Integer key) {
         Medicament medicament = new Medicament();
 
@@ -139,6 +221,56 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         cursor.close();
 
         return medicament;
+    }
+
+    public Rappel getRappel(Integer id_rappel) {
+        Rappel rappel = new Rappel();
+
+        String query = "SELECT * FROM " + TABLE_RAPPEL + " WHERE " + ATTRIBUT_ID_RAPPEL+ " = ?";
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(query, new String[]{(String.valueOf(id_rappel))});
+
+        while (cursor.moveToNext()) {
+            rappel.setId_rappel(cursor.getInt(0));
+            rappel.setId_med(cursor.getInt(1));;
+            rappel.setHeure(cursor.getString(2));
+            rappel.setRepetition(cursor.getInt(3));
+            rappel.setStatut(cursor.getInt(4));
+            rappel.setDernier_rappel(cursor.getString(5));
+        }
+
+        database.close();
+        cursor.close();
+
+        return rappel;
+    }
+
+    public ArrayList<Rappel> getRappelsFromMedicament(Integer id_med) {
+        ArrayList<Rappel> listeRappels = new ArrayList();
+
+        String query = "SELECT * FROM " + TABLE_RAPPEL + " WHERE " + ATTRIBUT_ID_MED+ " = ?";
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        Cursor cursor = database.rawQuery(query, new String[]{(String.valueOf(id_med))});
+
+        while (cursor.moveToNext()) {
+            Rappel rappel = new Rappel();
+
+            rappel.setId_rappel(cursor.getInt(0));
+            rappel.setId_med(cursor.getInt(1));;
+            rappel.setHeure(cursor.getString(2));
+            rappel.setRepetition(cursor.getInt(3));
+            rappel.setStatut(cursor.getInt(4));
+            rappel.setDernier_rappel(cursor.getString(5));
+
+            listeRappels.add(rappel);
+        }
+
+        database.close();
+        cursor.close();
+
+        return listeRappels;
     }
 
     public ArrayList<Medicament> getAllMedicaments() {
@@ -162,5 +294,27 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         return listeMedicaments;
     }
 
+    public ArrayList<Rappel> getAllRappels() {
+        ArrayList<Rappel> listeRappels = new ArrayList();
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_RAPPEL;
+        Cursor cursor = database.rawQuery(query, null);
+
+        while(cursor.moveToNext()){
+            Rappel rappel = new Rappel();
+
+            rappel.setId_rappel(cursor.getInt(0));
+            rappel.setId_med(cursor.getInt(1));;
+            rappel.setHeure(cursor.getString(2));
+            rappel.setRepetition(cursor.getInt(3));
+            rappel.setStatut(cursor.getInt(4));
+            rappel.setDernier_rappel(cursor.getString(5));
+
+            listeRappels.add(rappel);
+        }
+        database.close();
+        return listeRappels;
+    }
 }
 
