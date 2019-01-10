@@ -8,7 +8,7 @@
     <string name="medicine_fabricant">Fabricant</string>
     <string name="button_valider">Valider</string>
     <string name="reminder">Rappels</string>
-    <string name="button_creer_rappel">Créer un rappel</string>
+    <string name="button_creer_rappel">+ Ajouter un rappel</string>
     <string name="button_supprimer">Supprimer</string>
     <string name="button_modifier">Modifier</string>
     <string name="medicine_list_title">Vos médicaments enregistrés</string>

@@ -45,9 +45,20 @@
                 <ListView
                     android:id="@+id/data_consulter_list_view"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginRight="10dp">
+
+                </ListView>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <ListView
+                    android:id="@+id/data_consulter_list_rappel_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
 
             </LinearLayout>

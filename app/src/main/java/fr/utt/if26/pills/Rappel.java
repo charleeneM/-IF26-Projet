@@ -15,8 +15,8 @@ public class Rappel implements Serializable {
         this.id_rappel = null;
         this.id_med = null;
         this.heure = null;
-        this.repetition = null;
-        this.statut = null;
+        this.repetition = 1;
+        this.statut = 0;
         this.dernier_rappel = null;
     }
 

@@ -9,12 +9,17 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MedicineShowActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     //Menu
@@ -65,12 +70,37 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
         tv_medicine_type.setText(med.getType());
         String stockMed = (String) String.valueOf(med.getStock());
         tv_medicine_stock.setText(stockMed);
+
+        final ListView listeRappels = (ListView) findViewById(R.id.medecine_show_liste_view_rappels);
+
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+        persistance.initData();
+
+        ArrayList<Rappel> dataRappels = persistance.getRappelsFromMedicament(med.getId());
+
+        AdaptateurRappelMedicament adaptateurRappel = new AdaptateurRappelMedicament(this, R.layout.rappel_medicament, dataRappels);
+        listeRappels.setAdapter(adaptateurRappel);
+
+        listeRappels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("test","Position=" + position);
+
+                Rappel rappel = (Rappel) listeRappels.getItemAtPosition(position);
+
+                Intent rappelShowActivityIntent = new Intent(MedicineShowActivity.this, RappelShowActivity.class);
+
+                rappelShowActivityIntent.putExtra("rappel", rappel);
+                startActivity(rappelShowActivityIntent);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.medicine_show_button_rappel:
+                this.createRappel();
                 break;
 
             case R.id.medicine_show_button_supprimer:
@@ -82,6 +112,12 @@ public class MedicineShowActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
 
+    }
+
+    private void createRappel(){
+        Intent createRappelActivity = new Intent(MedicineShowActivity.this, RappelAddActivity.class);
+        createRappelActivity.putExtra("idMed", med.getId());
+        startActivity(createRappelActivity);
     }
 
     private void deleteMedicineShow(){

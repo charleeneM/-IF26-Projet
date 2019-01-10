@@ -21,7 +21,10 @@
         <activity android:name=".MedicineListActivity" />
         <activity android:name=".MedicineUpdateActivity" />
         <activity android:name=".PersonalDataActivity" />
-        <activity android:name=".PersonalDataListActivity"></activity>
+        <activity android:name=".PersonalDataListActivity" />
+        <activity android:name=".RappelAddActivity" />
+        <activity android:name=".RappelShowActivity" />
+        <activity android:name=".RappelUpdateActivity"></activity>
     </application>
 
 </manifest>

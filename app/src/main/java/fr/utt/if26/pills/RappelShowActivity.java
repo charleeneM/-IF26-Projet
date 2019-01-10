@@ -10,21 +10,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+public class RappelShowActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-public class PersonalDataListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Menu
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
     ///
 
+    private TextView tv_title;
+    private TextView tv_rappel_heure;
+    private TextView tv_rappel_repetition;
+    private Button button_delete;
+    private Button button_update;
+
+    Rappel rappel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_data_list);
+        setContentView(R.layout.activity_rappel_show);
 
         // Pour le menu
         this.configureToolBar();
@@ -32,22 +42,56 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
         this.configureNavigationView();
         ///
 
+        rappel = (Rappel) getIntent().getSerializableExtra("rappel");
 
-        final ListView listeDataMedicaments = (ListView) findViewById(R.id.data_consulter_list_view);
-        final ListView listeDataRappels = (ListView) findViewById(R.id.data_consulter_list_rappel_view);
+        tv_title = (TextView) findViewById(R.id.rappel_show_tv_title);
+        tv_rappel_heure = (TextView) findViewById(R.id.rappel_show_tv_heure_value);
+        tv_rappel_repetition = (TextView) findViewById(R.id.rappel_show_tv_repetition_value);
+
+        button_delete = (Button) findViewById(R.id.rappel_show_button_supprimer);
+        button_update = (Button) findViewById(R.id.rappel_show_button_modifier);
+        button_update.setOnClickListener(this);
+        button_delete.setOnClickListener(this);
 
         MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
         persistance.initData();
 
-        ArrayList<Medicament> dataMedicaments = persistance.getAllMedicaments();
-        ArrayList<Rappel> dataRappels = persistance.getAllRappels();
+        Medicament med = persistance.getMedicament(rappel.getId_med());
 
-        AdaptateurDataMedicament adapteur = new AdaptateurDataMedicament(this, R.layout.data_medicine, dataMedicaments);
-        listeDataMedicaments.setAdapter(adapteur);
-        AdaptateurDataRappel adaptateurRappel = new AdaptateurDataRappel(this, R.layout.data_rappel, dataRappels);
-        listeDataRappels.setAdapter(adaptateurRappel);
+        tv_title.setText("Rappel " + med.getNom());
+        tv_rappel_heure.setText(rappel.getHeure());
+        tv_rappel_repetition.setText(String.valueOf(rappel.getRepetition()));
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rappel_show_button_supprimer:
+                this.deleteRappel();
+                break;
+
+            case R.id.rappel_show_button_modifier:
+                this.updateRappel();
+                break;
+        }
+    }
+
+
+    private void deleteRappel(){
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+        persistance.deleteRappel(rappel);
+
+        Intent deleteRappelShowActivity = new Intent(RappelShowActivity.this, MedicineListActivity.class);
+        startActivity(deleteRappelShowActivity);
+
+        Toast.makeText(this, "Le rappel a bien été supprimé", Toast.LENGTH_LONG).show();
+    }
+
+    private void updateRappel(){
+        Intent updateRappelShowActivity = new Intent(RappelShowActivity.this, RappelUpdateActivity.class);
+        updateRappelShowActivity.putExtra("rappel", rappel);
+        startActivity(updateRappelShowActivity);
+    }
 
     // ---------------------
     // CONFIGURATION - MENU
@@ -109,18 +153,17 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
     }
 
     private void openMesMedicaments(){
-        Intent medicamentsActivityIntent = new Intent(PersonalDataListActivity.this, MedicineListActivity.class);
+        Intent medicamentsActivityIntent = new Intent(RappelShowActivity.this, MedicineListActivity.class);
         startActivity(medicamentsActivityIntent);
     }
 
     private void openAujourdhui(){
-        Intent aujourdhuiActivityIntent = new Intent(PersonalDataListActivity.this, MainActivity.class);
+        Intent aujourdhuiActivityIntent = new Intent(RappelShowActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
     }
 
     private void openDonneesPersonnelles(){
-        Intent donneesPersoActivityIntent = new Intent(PersonalDataListActivity.this, PersonalDataActivity.class);
+        Intent donneesPersoActivityIntent = new Intent(RappelShowActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
     }
-
 }

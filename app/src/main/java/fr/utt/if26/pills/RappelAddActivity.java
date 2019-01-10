@@ -10,21 +10,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import java.util.ArrayList;
-
-public class PersonalDataListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class RappelAddActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     //Menu
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
     ///
 
+    private EditText et_rappel_heure;
+    private EditText et_rappel_repetition;
+    private Button button_rappel_valider;
+
+    Integer idMed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_data_list);
+        setContentView(R.layout.activity_rappel_add);
 
         // Pour le menu
         this.configureToolBar();
@@ -32,20 +39,45 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
         this.configureNavigationView();
         ///
 
+        idMed = getIntent().getIntExtra("idMed", 0);
 
-        final ListView listeDataMedicaments = (ListView) findViewById(R.id.data_consulter_list_view);
-        final ListView listeDataRappels = (ListView) findViewById(R.id.data_consulter_list_rappel_view);
+        et_rappel_heure = (EditText) findViewById(R.id.rappel_add_et_heure);
+        et_rappel_repetition = (EditText) findViewById(R.id.rappel_add_et_repetition);
 
-        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
-        persistance.initData();
+        button_rappel_valider = (Button) findViewById(R.id.rappel_add_button);
+        button_rappel_valider.setOnClickListener(this);
+    }
 
-        ArrayList<Medicament> dataMedicaments = persistance.getAllMedicaments();
-        ArrayList<Rappel> dataRappels = persistance.getAllRappels();
 
-        AdaptateurDataMedicament adapteur = new AdaptateurDataMedicament(this, R.layout.data_medicine, dataMedicaments);
-        listeDataMedicaments.setAdapter(adapteur);
-        AdaptateurDataRappel adaptateurRappel = new AdaptateurDataRappel(this, R.layout.data_rappel, dataRappels);
-        listeDataRappels.setAdapter(adaptateurRappel);
+    @Override
+    public void onClick(View v) {
+        Rappel rappel = new Rappel();
+
+        String heureRappel = (String) et_rappel_heure.getText().toString();
+        String repetitionRappelIntermediare = et_rappel_repetition.getText().toString();
+
+
+        Integer repetitionRappel = 1;
+        if (!repetitionRappelIntermediare.isEmpty()) {
+            repetitionRappel = (Integer) Integer.parseInt(repetitionRappelIntermediare);
+        }
+
+        if (!heureRappel.isEmpty()){
+            rappel.setHeure(heureRappel);
+            rappel.setRepetition(repetitionRappel);
+            rappel.setId_med(idMed);
+
+            MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+            persistance.addRappel(rappel);
+
+            Intent rappelAddActivityIntent = new Intent(RappelAddActivity.this, MedicineListActivity.class);
+            startActivity(rappelAddActivityIntent);
+
+            Toast.makeText(this, "Le rappel a bien été ajouté", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Veuillez renseigner les champs obligatoires", Toast.LENGTH_LONG).show();
+        }
+
     }
 
 
@@ -109,18 +141,19 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
     }
 
     private void openMesMedicaments(){
-        Intent medicamentsActivityIntent = new Intent(PersonalDataListActivity.this, MedicineListActivity.class);
+        Intent medicamentsActivityIntent = new Intent(RappelAddActivity.this, MedicineListActivity.class);
         startActivity(medicamentsActivityIntent);
     }
 
     private void openAujourdhui(){
-        Intent aujourdhuiActivityIntent = new Intent(PersonalDataListActivity.this, MainActivity.class);
+        Intent aujourdhuiActivityIntent = new Intent(RappelAddActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
     }
 
     private void openDonneesPersonnelles(){
-        Intent donneesPersoActivityIntent = new Intent(PersonalDataListActivity.this, PersonalDataActivity.class);
+        Intent donneesPersoActivityIntent = new Intent(RappelAddActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
     }
 
 }
+

@@ -108,7 +108,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         values.put(ATTRIBUT_STATUT, r.getStatut());
         values.put(ATTRIBUT_DERNIER_RAPPEL, r.getDernier_rappel());
 
-        System.out.println(values);
+        System.out.println("----------------- Values du rappel " + values);
         database.insert(TABLE_RAPPEL, null, values);
         database.close();
     }
@@ -180,6 +180,28 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         database.close();
     }
 
+    public void updateRappel(Rappel r) {
+        ContentValues values = new ContentValues();
+
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        System.out.println("Rappel à modifier : " + r);
+
+        values.put(ATTRIBUT_ID_RAPPEL, r.getId_rappel());
+        values.put(ATTRIBUT_ID_MED, r.getId_med());
+        values.put(ATTRIBUT_HEURE, r.getHeure());
+        values.put(ATTRIBUT_REPETITION, r.getRepetition());
+        values.put(ATTRIBUT_STATUT, r.getStatut());
+        values.put(ATTRIBUT_DERNIER_RAPPEL, r.getDernier_rappel());
+
+        String selection = ATTRIBUT_ID_RAPPEL + " LIKE ?";
+        String id_rappel = (String) String.valueOf(r.getId_rappel());
+        String[] selectionArgs = {id_rappel};
+
+        database.update(TABLE_RAPPEL, values, selection, selectionArgs);
+
+    }
+
     public void updateMedicament(Medicament m) {
         ContentValues values = new ContentValues();
         System.out.println("Medicament à modifier : " + m);
@@ -198,8 +220,6 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         database.update(TABLE_MEDICAMENT, values, selection, selectionArgs);
 
     }
-
-    //Faire update rappel
 
     public Medicament getMedicament(Integer key) {
         Medicament medicament = new Medicament();
