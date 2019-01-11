@@ -3,7 +3,7 @@ package fr.utt.if26.pills;
 import java.io.Serializable;
 
 public class Medicament implements Serializable {
-    private Integer id; // à voir si vraiment utile ici
+    private Integer id;
     private String nom;
     private String fabricant;
     private String type; // déclaration à corriger

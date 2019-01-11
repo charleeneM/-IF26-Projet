@@ -9,30 +9,32 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+public class RappelShowActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-public class MedicineListActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     //Menu
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
     private NavigationView navigationView;
     ///
 
+    private TextView tv_title;
+    private TextView tv_rappel_heure;
+    private TextView tv_rappel_repetition;
+    private Button button_delete;
+    private Button button_update;
 
-    Button bouton_ajout;
+    Rappel rappel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medicine_list);
+        setContentView(R.layout.activity_rappel_show);
 
         // Pour le menu
         this.configureToolBar();
@@ -40,40 +42,56 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
         this.configureNavigationView();
         ///
 
-        bouton_ajout = (Button) findViewById(R.id.medicine_list_button_ajouter);
-        bouton_ajout.setOnClickListener(this);
+        rappel = (Rappel) getIntent().getSerializableExtra("rappel");
 
-        final ListView listeMedicaments = (ListView) findViewById(R.id.medicine_list_view);
+        tv_title = (TextView) findViewById(R.id.rappel_show_tv_title);
+        tv_rappel_heure = (TextView) findViewById(R.id.rappel_show_tv_heure_value);
+        tv_rappel_repetition = (TextView) findViewById(R.id.rappel_show_tv_repetition_value);
+
+        button_delete = (Button) findViewById(R.id.rappel_show_button_supprimer);
+        button_update = (Button) findViewById(R.id.rappel_show_button_modifier);
+        button_update.setOnClickListener(this);
+        button_delete.setOnClickListener(this);
 
         MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
         persistance.initData();
 
-        ArrayList<Medicament> medicaments = persistance.getAllMedicaments();
+        Medicament med = persistance.getMedicament(rappel.getId_med());
 
-        AdaptateurMedicament adapteur = new AdaptateurMedicament(this, R.layout.medicine, medicaments);
-        listeMedicaments.setAdapter(adapteur);
-
-        listeMedicaments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("test","Position=" + position);
-
-                Medicament med = (Medicament) listeMedicaments.getItemAtPosition(position);
-
-                Intent medicineShowActivityIntent = new Intent(MedicineListActivity.this, MedicineShowActivity.class);
-
-                medicineShowActivityIntent.putExtra("med", med);
-                startActivity(medicineShowActivityIntent);
-            }
-        });
+        tv_title.setText("Rappel " + med.getNom());
+        tv_rappel_heure.setText(rappel.getHeure());
+        tv_rappel_repetition.setText(rappel.convertirRepetition());
     }
 
     @Override
     public void onClick(View v) {
-        Intent MedicineAddActivityIntent = new Intent(MedicineListActivity.this, MedicineAddActivity.class);
-        startActivity(MedicineAddActivityIntent);
+        switch (v.getId()) {
+            case R.id.rappel_show_button_supprimer:
+                this.deleteRappel();
+                break;
+
+            case R.id.rappel_show_button_modifier:
+                this.updateRappel();
+                break;
+        }
     }
 
+
+    private void deleteRappel(){
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+        persistance.deleteRappel(rappel);
+
+        Intent deleteRappelShowActivity = new Intent(RappelShowActivity.this, MedicineListActivity.class);
+        startActivity(deleteRappelShowActivity);
+
+        Toast.makeText(this, "Le rappel a bien été supprimé", Toast.LENGTH_LONG).show();
+    }
+
+    private void updateRappel(){
+        Intent updateRappelShowActivity = new Intent(RappelShowActivity.this, RappelUpdateActivity.class);
+        updateRappelShowActivity.putExtra("rappel", rappel);
+        startActivity(updateRappelShowActivity);
+    }
 
     // ---------------------
     // CONFIGURATION - MENU
@@ -136,22 +154,22 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void openMesMedicaments(){
-        Intent medicamentsActivityIntent = new Intent(MedicineListActivity.this, MedicineListActivity.class);
+        Intent medicamentsActivityIntent = new Intent(RappelShowActivity.this, MedicineListActivity.class);
         startActivity(medicamentsActivityIntent);
     }
 
     private void openAujourdhui(){
-        Intent aujourdhuiActivityIntent = new Intent(MedicineListActivity.this, MainActivity.class);
+        Intent aujourdhuiActivityIntent = new Intent(RappelShowActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
     }
 
     private void openDonneesPersonnelles(){
-        Intent donneesPersoActivityIntent = new Intent(MedicineListActivity.this, PersonalDataActivity.class);
+        Intent donneesPersoActivityIntent = new Intent(RappelShowActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
     }
 
     private void openMesRappels(){
-        Intent mesRappelsActivityIntent = new Intent(MedicineListActivity.this, RappelListActivty.class);
+        Intent mesRappelsActivityIntent = new Intent(RappelShowActivity.this, RappelListActivty.class);
         startActivity(mesRappelsActivityIntent);
     }
 }

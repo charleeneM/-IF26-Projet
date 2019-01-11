@@ -13,13 +13,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MedicineListActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class RappelListActivty extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //Menu
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -27,12 +25,11 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
     ///
 
 
-    Button bouton_ajout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medicine_list);
+        setContentView(R.layout.activity_rappel_list_activty);
 
         // Pour le menu
         this.configureToolBar();
@@ -40,40 +37,31 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
         this.configureNavigationView();
         ///
 
-        bouton_ajout = (Button) findViewById(R.id.medicine_list_button_ajouter);
-        bouton_ajout.setOnClickListener(this);
-
-        final ListView listeMedicaments = (ListView) findViewById(R.id.medicine_list_view);
+        final ListView listeRappels = (ListView) findViewById(R.id.rappel_list_view);
 
         MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
         persistance.initData();
 
-        ArrayList<Medicament> medicaments = persistance.getAllMedicaments();
+        ArrayList<Rappel> dataRappels = persistance.getAllRappels();
 
-        AdaptateurMedicament adapteur = new AdaptateurMedicament(this, R.layout.medicine, medicaments);
-        listeMedicaments.setAdapter(adapteur);
+        AdaptateurRappel adaptateurRappel = new AdaptateurRappel(this, R.layout.rappel, dataRappels);
+        listeRappels.setAdapter(adaptateurRappel);
 
-        listeMedicaments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listeRappels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("test","Position=" + position);
 
-                Medicament med = (Medicament) listeMedicaments.getItemAtPosition(position);
+                Rappel rappel = (Rappel) listeRappels.getItemAtPosition(position);
 
-                Intent medicineShowActivityIntent = new Intent(MedicineListActivity.this, MedicineShowActivity.class);
+                Intent rappelShowActivityIntent = new Intent(RappelListActivty.this, RappelShowActivity.class);
 
-                medicineShowActivityIntent.putExtra("med", med);
-                startActivity(medicineShowActivityIntent);
+                rappelShowActivityIntent.putExtra("rappel", rappel);
+                startActivity(rappelShowActivityIntent);
             }
         });
-    }
 
-    @Override
-    public void onClick(View v) {
-        Intent MedicineAddActivityIntent = new Intent(MedicineListActivity.this, MedicineAddActivity.class);
-        startActivity(MedicineAddActivityIntent);
     }
-
 
     // ---------------------
     // CONFIGURATION - MENU
@@ -136,22 +124,22 @@ public class MedicineListActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void openMesMedicaments(){
-        Intent medicamentsActivityIntent = new Intent(MedicineListActivity.this, MedicineListActivity.class);
+        Intent medicamentsActivityIntent = new Intent(RappelListActivty.this, MedicineListActivity.class);
         startActivity(medicamentsActivityIntent);
     }
 
     private void openAujourdhui(){
-        Intent aujourdhuiActivityIntent = new Intent(MedicineListActivity.this, MainActivity.class);
+        Intent aujourdhuiActivityIntent = new Intent(RappelListActivty.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
     }
 
     private void openDonneesPersonnelles(){
-        Intent donneesPersoActivityIntent = new Intent(MedicineListActivity.this, PersonalDataActivity.class);
+        Intent donneesPersoActivityIntent = new Intent(RappelListActivty.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
     }
 
     private void openMesRappels(){
-        Intent mesRappelsActivityIntent = new Intent(MedicineListActivity.this, RappelListActivty.class);
+        Intent mesRappelsActivityIntent = new Intent(RappelListActivty.this, RappelListActivty.class);
         startActivity(mesRappelsActivityIntent);
     }
 }

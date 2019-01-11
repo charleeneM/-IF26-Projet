@@ -34,14 +34,18 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
 
 
         final ListView listeDataMedicaments = (ListView) findViewById(R.id.data_consulter_list_view);
+        final ListView listeDataRappels = (ListView) findViewById(R.id.data_consulter_list_rappel_view);
 
         MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
         persistance.initData();
 
         ArrayList<Medicament> dataMedicaments = persistance.getAllMedicaments();
+        ArrayList<Rappel> dataRappels = persistance.getAllRappels();
 
         AdaptateurDataMedicament adapteur = new AdaptateurDataMedicament(this, R.layout.data_medicine, dataMedicaments);
         listeDataMedicaments.setAdapter(adapteur);
+        AdaptateurDataRappel adaptateurRappel = new AdaptateurDataRappel(this, R.layout.data_rappel, dataRappels);
+        listeDataRappels.setAdapter(adaptateurRappel);
     }
 
 
@@ -82,6 +86,7 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
                 this.openMesMedicaments();
                 break;
             case R.id.nav_rappels:
+                this.openMesRappels();
                 break;
             case R.id.nav_donnees_perso:
                 this.openDonneesPersonnelles();
@@ -117,6 +122,11 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
     private void openDonneesPersonnelles(){
         Intent donneesPersoActivityIntent = new Intent(PersonalDataListActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
+    }
+
+    private void openMesRappels(){
+        Intent mesRappelsActivityIntent = new Intent(PersonalDataListActivity.this, RappelListActivty.class);
+        startActivity(mesRappelsActivityIntent);
     }
 
 }

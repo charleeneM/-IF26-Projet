@@ -128,6 +128,7 @@ public class MedicineUpdateActivity extends AppCompatActivity implements View.On
                 this.openMesMedicaments();
                 break;
             case R.id.nav_rappels:
+                this.openMesRappels();
                 break;
             case R.id.nav_donnees_perso:
                 this.openDonneesPersonnelles();
@@ -163,5 +164,10 @@ public class MedicineUpdateActivity extends AppCompatActivity implements View.On
     private void openDonneesPersonnelles(){
         Intent donneesPersoActivityIntent = new Intent(MedicineUpdateActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
+    }
+
+    private void openMesRappels(){
+        Intent mesRappelsActivityIntent = new Intent(MedicineUpdateActivity.this, RappelListActivty.class);
+        startActivity(mesRappelsActivityIntent);
     }
 }
