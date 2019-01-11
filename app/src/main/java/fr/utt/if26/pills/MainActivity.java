@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this.openMesMedicaments();
                 break;
             case R.id.nav_rappels:
-                Toast.makeText(MainActivity.this, "Mes rappels",Toast.LENGTH_SHORT).show();
+                this.openMesRappels();
                 break;
             case R.id.nav_donnees_perso:
                 this.openDonneesPersonnelles();
@@ -112,4 +112,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(donneesPersoActivityIntent);
     }
 
+    private void openMesRappels(){
+        Intent mesRappelsActivityIntent = new Intent(MainActivity.this, RappelListActivty.class);
+        startActivity(mesRappelsActivityIntent);
     }
+}

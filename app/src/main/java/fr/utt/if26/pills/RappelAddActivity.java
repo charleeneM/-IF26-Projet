@@ -118,6 +118,7 @@ public class RappelAddActivity extends AppCompatActivity implements NavigationVi
                 this.openMesMedicaments();
                 break;
             case R.id.nav_rappels:
+                this.openMesRappels();
                 break;
             case R.id.nav_donnees_perso:
                 this.openDonneesPersonnelles();
@@ -155,5 +156,9 @@ public class RappelAddActivity extends AppCompatActivity implements NavigationVi
         startActivity(donneesPersoActivityIntent);
     }
 
+    private void openMesRappels(){
+        Intent mesRappelsActivityIntent = new Intent(RappelAddActivity.this, RappelListActivty.class);
+        startActivity(mesRappelsActivityIntent);
+    }
 }
 

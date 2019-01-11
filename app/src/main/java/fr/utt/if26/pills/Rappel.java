@@ -77,6 +77,14 @@ public class Rappel implements Serializable {
         this.dernier_rappel = dernier_rappel;
     }
 
+    public String convertirRepetition(){
+        if(this.repetition == 1){
+            return "Répété tous les jours";
+        } else {
+            return ("Répété tous les " + this.repetition + " jours");
+        }
+    }
+
     @Override
     public String toString() {
         return "Rappel{" +

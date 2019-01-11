@@ -60,7 +60,7 @@ public class RappelShowActivity extends AppCompatActivity implements View.OnClic
 
         tv_title.setText("Rappel " + med.getNom());
         tv_rappel_heure.setText(rappel.getHeure());
-        tv_rappel_repetition.setText(String.valueOf(rappel.getRepetition()));
+        tv_rappel_repetition.setText(rappel.convertirRepetition());
     }
 
     @Override
@@ -130,6 +130,7 @@ public class RappelShowActivity extends AppCompatActivity implements View.OnClic
                 this.openMesMedicaments();
                 break;
             case R.id.nav_rappels:
+                this.openMesRappels();
                 break;
             case R.id.nav_donnees_perso:
                 this.openDonneesPersonnelles();
@@ -165,5 +166,10 @@ public class RappelShowActivity extends AppCompatActivity implements View.OnClic
     private void openDonneesPersonnelles(){
         Intent donneesPersoActivityIntent = new Intent(RappelShowActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
+    }
+
+    private void openMesRappels(){
+        Intent mesRappelsActivityIntent = new Intent(RappelShowActivity.this, RappelListActivty.class);
+        startActivity(mesRappelsActivityIntent);
     }
 }

@@ -86,6 +86,7 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
                 this.openMesMedicaments();
                 break;
             case R.id.nav_rappels:
+                this.openMesRappels();
                 break;
             case R.id.nav_donnees_perso:
                 this.openDonneesPersonnelles();
@@ -121,6 +122,11 @@ public class PersonalDataListActivity extends AppCompatActivity implements Navig
     private void openDonneesPersonnelles(){
         Intent donneesPersoActivityIntent = new Intent(PersonalDataListActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
+    }
+
+    private void openMesRappels(){
+        Intent mesRappelsActivityIntent = new Intent(PersonalDataListActivity.this, RappelListActivty.class);
+        startActivity(mesRappelsActivityIntent);
     }
 
 }

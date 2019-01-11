@@ -24,7 +24,8 @@
         <activity android:name=".PersonalDataListActivity" />
         <activity android:name=".RappelAddActivity" />
         <activity android:name=".RappelShowActivity" />
-        <activity android:name=".RappelUpdateActivity"></activity>
+        <activity android:name=".RappelUpdateActivity" />
+        <activity android:name=".RappelListActivty"></activity>
     </application>
 
 </manifest>
