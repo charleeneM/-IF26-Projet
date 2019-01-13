@@ -3,31 +3,23 @@ package fr.utt.if26.pills;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class RappelCheckActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     //Menu
     private DrawerLayout drawerLayout;
@@ -35,70 +27,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     ///
 
+    private TextView tv_title;
+    private TextView tv_rappel_heure;
+    private Button button_check;
+
+    Rappel rappel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_rappel_check);
 
         // Pour le menu
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
-        //
+        ///
 
-        final ListView listeRappels = (ListView) findViewById(R.id.main_lv_reminder);
+        rappel = (Rappel) getIntent().getSerializableExtra("rappel");
+
+        tv_title = (TextView) findViewById(R.id.rappel_check_tv_title);
+        tv_rappel_heure = (TextView) findViewById(R.id.rappel_check_tv_heure_value);
+
+        button_check = (Button) findViewById(R.id.rappel_check_button);
+        button_check.setOnClickListener(this);
 
         MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
         persistance.initData();
 
-        ArrayList<Rappel> dataRappels = persistance.getAllRappels();
-        ArrayList<Rappel> todayRappels = new ArrayList<>();
+        Medicament med = persistance.getMedicament(rappel.getId_med());
 
+        tv_title.setText("Rappel " + med.getNom());
+        tv_rappel_heure.setText(rappel.getHeure());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rappel_check_button:
+                this.checkRappel();
+                break;
+        }
+    }
+
+
+    private void checkRappel(){
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+        rappel.setStatut(1);
+        //changer la valeur de prochain rappel en ajoutant le répétition
+
+        Calendar prochainRappelCalendar = Calendar.getInstance();
         SimpleDateFormat d = new SimpleDateFormat ("dd/MM/yyyy" );
-        Date currentTime = new Date();
 
-        String currentDateString = d.format(currentTime);
-        Date currentDate = new Date();
+        prochainRappelCalendar.add(Calendar.DATE, rappel.getRepetition());
+        String prochainRappel = d.format(prochainRappelCalendar.getTime());
+        rappel.setProchain_rappel(prochainRappel);
 
-        try {
-            currentDate = d.parse(currentDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        persistance.updateRappel(rappel);
 
-        Iterator<Rappel> it = dataRappels.iterator();
-        while (it.hasNext()) {
-            Rappel elt = it.next();
-            Date dateProchainRappel = new Date();
-            try {
-                dateProchainRappel = d.parse(elt.getProchain_rappel());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+        Intent checkRappelShowActivity = new Intent(RappelCheckActivity.this, MainActivity.class);
+        startActivity(checkRappelShowActivity);
 
-            if(dateProchainRappel.compareTo(currentDate) == 0 ){
-                elt.setStatut(0);
-                todayRappels.add(elt);
-            }
-        }
-
-        AdaptateurRappel adaptateurRappel = new AdaptateurRappel(this, R.layout.rappel, todayRappels);
-        listeRappels.setAdapter(adaptateurRappel);
-
-
-        listeRappels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("test","Position=" + position);
-
-                Rappel rappel = (Rappel) listeRappels.getItemAtPosition(position);
-
-                Intent rappelShowActivityIntent = new Intent(MainActivity.this, RappelCheckActivity.class);
-
-                rappelShowActivityIntent.putExtra("rappel", rappel);
-                startActivity(rappelShowActivityIntent);
-            }
-        });
+        Toast.makeText(this, "Le rappel a bien été pris", Toast.LENGTH_LONG).show();
     }
 
     // ---------------------
@@ -162,22 +152,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void openMesMedicaments(){
-        Intent medicamentsActivityIntent = new Intent(MainActivity.this, MedicineListActivity.class);
+        Intent medicamentsActivityIntent = new Intent(RappelCheckActivity.this, MedicineListActivity.class);
         startActivity(medicamentsActivityIntent);
     }
 
     private void openAujourdhui(){
-        Intent aujourdhuiActivityIntent = new Intent(MainActivity.this, MainActivity.class);
+        Intent aujourdhuiActivityIntent = new Intent(RappelCheckActivity.this, MainActivity.class);
         startActivity(aujourdhuiActivityIntent);
     }
 
     private void openDonneesPersonnelles(){
-        Intent donneesPersoActivityIntent = new Intent(MainActivity.this, PersonalDataActivity.class);
+        Intent donneesPersoActivityIntent = new Intent(RappelCheckActivity.this, PersonalDataActivity.class);
         startActivity(donneesPersoActivityIntent);
     }
 
     private void openMesRappels(){
-        Intent mesRappelsActivityIntent = new Intent(MainActivity.this, RappelListActivty.class);
+        Intent mesRappelsActivityIntent = new Intent(RappelCheckActivity.this, RappelListActivty.class);
         startActivity(mesRappelsActivityIntent);
     }
 }

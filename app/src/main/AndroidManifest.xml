@@ -25,7 +25,8 @@
         <activity android:name=".RappelAddActivity" />
         <activity android:name=".RappelShowActivity" />
         <activity android:name=".RappelUpdateActivity" />
-        <activity android:name=".RappelListActivty"></activity>
+        <activity android:name=".RappelListActivty" />
+        <activity android:name=".RappelCheckActivity"></activity>
     </application>
 
 </manifest>

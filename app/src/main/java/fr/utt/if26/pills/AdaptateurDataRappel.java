@@ -43,7 +43,7 @@ public class AdaptateurDataRappel extends ArrayAdapter<Rappel> {
         tv_data_rappel_heure.setText(elt.getHeure());
         tv_data_rappel_repetition.setText(new String(String.valueOf(elt.getRepetition())));
         tv_data_rappel_statut.setText(new String(String.valueOf(elt.getStatut())));
-        tv_data_rappel_dernier_rappel.setText(elt.getDernier_rappel());
+        tv_data_rappel_dernier_rappel.setText(elt.getProchain_rappel());
 
 
         return v;
