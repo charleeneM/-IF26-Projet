@@ -117,17 +117,6 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     public void initData() {
         if (this.getAllMedicaments().isEmpty()) {
             this.onUpgrade(this.getWritableDatabase(), 1, 2);
-
-            //Tests
-            /*
-            Medicament med1 = new Medicament(null,"Med1", "test", "Pillule", 25.0);
-            Medicament med2 = new Medicament(null,"Med2", "fab", "Sirop", 33.5);
-            Medicament med3 = new Medicament(null,"Med3", "boiron", "granules", 100.0);
-
-            addMedicament(med1);
-            addMedicament(med2);
-            addMedicament(med3);
-            */
         }
     }
 

@@ -78,33 +78,8 @@ public class RappelAddActivity extends AppCompatActivity implements NavigationVi
             String currentDateString = d.format(currentTime);
 
             prochainRappel = currentDateString;
-            System.out.println("-------------------------------- Date = " + currentTime);
-            System.out.println("-------------------------------- Prochain Rappel = " + prochainRappel);
-
             rappel.setProchain_rappel(prochainRappel);
 
-            /*
-            String currentDateString = d.format(currentTime);
-            String currentHeureString = h.format(currentTime);
-
-            System.out.println(" ----  : " + currentHeureString);
-
-            Date currentHeure = new Date();
-            Date heureRappel = new Date();
-            try {
-                currentHeure = h.parse(currentHeureString);
-                heureRappel = h.parse(heureRappelString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("_______________ currentHeure = " + currentHeure + " et heureRappel = " + heureRappel);
-
-            if (currentHeure.after(heureRappel)){
-                System.out.println("-------------------------- heureRappel avant current time");
-            } else if (currentHeure.before(heureRappel)){
-                System.out.println("-------------------------- heureRappel après current time");
-            }*/
 
             MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
             persistance.addRappel(rappel);
