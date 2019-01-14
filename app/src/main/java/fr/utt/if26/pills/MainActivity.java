@@ -10,13 +10,22 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,6 +44,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
+        //
+
+        final ListView listeRappels = (ListView) findViewById(R.id.main_lv_reminder);
+
+        MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
+        persistance.initData();
+
+        ArrayList<Rappel> dataRappels = persistance.getAllRappels();
+        ArrayList<Rappel> todayRappels = new ArrayList<>();
+
+        SimpleDateFormat d = new SimpleDateFormat ("dd/MM/yyyy" );
+        Date currentTime = new Date();
+
+        String currentDateString = d.format(currentTime);
+        Date currentDate = new Date();
+
+        try {
+            currentDate = d.parse(currentDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Iterator<Rappel> it = dataRappels.iterator();
+        while (it.hasNext()) {
+            Rappel elt = it.next();
+            Date dateProchainRappel = new Date();
+            try {
+                dateProchainRappel = d.parse(elt.getProchain_rappel());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            if(dateProchainRappel.compareTo(currentDate) == 0 ){
+                elt.setStatut(0);
+                todayRappels.add(elt);
+            }
+        }
+
+        AdaptateurRappel adaptateurRappel = new AdaptateurRappel(this, R.layout.rappel, todayRappels);
+        listeRappels.setAdapter(adaptateurRappel);
+
+
+        listeRappels.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("test","Position=" + position);
+
+                Rappel rappel = (Rappel) listeRappels.getItemAtPosition(position);
+
+                Intent rappelShowActivityIntent = new Intent(MainActivity.this, RappelCheckActivity.class);
+
+                rappelShowActivityIntent.putExtra("rappel", rappel);
+                startActivity(rappelShowActivityIntent);
+            }
+        });
     }
 
     // ---------------------

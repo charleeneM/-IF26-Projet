@@ -1,7 +1,6 @@
 package fr.utt.if26.pills;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Rappel implements Serializable {
     private Integer id_rappel;
@@ -9,7 +8,7 @@ public class Rappel implements Serializable {
     private String heure;
     private Integer repetition;
     private Integer statut; //uniquement 0 ou 1
-    private String dernier_rappel;
+    private String prochain_rappel;
 
     public Rappel() {
         this.id_rappel = null;
@@ -17,16 +16,16 @@ public class Rappel implements Serializable {
         this.heure = null;
         this.repetition = 1;
         this.statut = 0;
-        this.dernier_rappel = null;
+        this.prochain_rappel = null;
     }
 
-    public Rappel(Integer id_rappel, Integer id_med, String heure, Integer repetition, Integer statut, String dernier_rappel) {
+    public Rappel(Integer id_rappel, Integer id_med, String heure, Integer repetition, Integer statut, String prochain_rappel) {
         this.id_rappel = id_rappel;
         this.id_med = id_med;
         this.heure = heure;
         this.repetition = repetition;
         this.statut = statut;
-        this.dernier_rappel = dernier_rappel;
+        this.prochain_rappel = prochain_rappel;
     }
 
     public Integer getId_rappel() {
@@ -69,12 +68,12 @@ public class Rappel implements Serializable {
         this.statut = statut;
     }
 
-    public String getDernier_rappel() {
-        return dernier_rappel;
+    public String getProchain_rappel() {
+        return prochain_rappel;
     }
 
-    public void setDernier_rappel(String dernier_rappel) {
-        this.dernier_rappel = dernier_rappel;
+    public void setProchain_rappel(String prochain_rappel) {
+        this.prochain_rappel = prochain_rappel;
     }
 
     public String convertirRepetition(){
@@ -93,7 +92,7 @@ public class Rappel implements Serializable {
                 ", heure=" + heure +
                 ", repetition=" + repetition +
                 ", statut=" + statut +
-                ", dernier_rappel=" + dernier_rappel +
+                ", prochain_rappel=" + prochain_rappel +
                 '}';
     }
 }

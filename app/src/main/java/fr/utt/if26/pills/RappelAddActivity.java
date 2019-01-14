@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class RappelAddActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     //Menu
     private DrawerLayout drawerLayout;
@@ -53,7 +56,7 @@ public class RappelAddActivity extends AppCompatActivity implements NavigationVi
     public void onClick(View v) {
         Rappel rappel = new Rappel();
 
-        String heureRappel = (String) et_rappel_heure.getText().toString();
+        String heureRappelString = (String) et_rappel_heure.getText().toString();
         String repetitionRappelIntermediare = et_rappel_repetition.getText().toString();
 
 
@@ -62,10 +65,21 @@ public class RappelAddActivity extends AppCompatActivity implements NavigationVi
             repetitionRappel = (Integer) Integer.parseInt(repetitionRappelIntermediare);
         }
 
-        if (!heureRappel.isEmpty()){
-            rappel.setHeure(heureRappel);
+        if (!heureRappelString.isEmpty()){
+            rappel.setHeure(heureRappelString);
             rappel.setRepetition(repetitionRappel);
             rappel.setId_med(idMed);
+
+            String prochainRappel;
+
+            SimpleDateFormat d = new SimpleDateFormat ("dd/MM/yyyy" );
+            Date currentTime = new Date();
+
+            String currentDateString = d.format(currentTime);
+
+            prochainRappel = currentDateString;
+            rappel.setProchain_rappel(prochainRappel);
+
 
             MedicamentPersistance persistance = new MedicamentPersistance(this, "pills.db", null, 1);
             persistance.addRappel(rappel);

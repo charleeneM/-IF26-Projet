@@ -42,16 +42,16 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     private static final String ATTRIBUT_HEURE = "heure";
     private static final String ATTRIBUT_REPETITION = "repetition";
     private static final String ATTRIBUT_STATUT = "statut";
-    private static final String ATTRIBUT_DERNIER_RAPPEL = "dernier_rappel";
+    private static final String ATTRIBUT_PROCHAIN_RAPPEL = "prochain_rappel";
 
     final String table_rappel_create =
             "CREATE TABLE IF NOT EXISTS " + TABLE_RAPPEL + "(" +
                     ATTRIBUT_ID_RAPPEL + " INTEGER primary key AUTOINCREMENT," +
                     ATTRIBUT_ID_MED + " INTEGER not null, " +
-                    ATTRIBUT_HEURE + " TEXT, " +  //Date au format "YYYY-MM-DD HH:MM:SS.SSS"
+                    ATTRIBUT_HEURE + " TEXT, " +  //Heure au format HH:MM
                     ATTRIBUT_REPETITION + " INTEGER DEFAULT 1, " +
                     ATTRIBUT_STATUT + " INTEGER DEFAULT 0, " + //Booléen : 0 pour false et 1 pour true
-                    ATTRIBUT_DERNIER_RAPPEL + " TEXT, " + //Date au format "YYYY-MM-DD HH:MM:SS.SSS"
+                    ATTRIBUT_PROCHAIN_RAPPEL + " TEXT, " + //Date au format "DD/MM/YYYY"
                     " FOREIGN KEY(" + ATTRIBUT_ID_MED + ") REFERENCES " + TABLE_MEDICAMENT + "(" + ATTRIBUT_ID_MEDICAMENT + ") " +
             ")";
 
@@ -106,7 +106,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         values.put(ATTRIBUT_HEURE, r.getHeure());
         values.put(ATTRIBUT_REPETITION, r.getRepetition());
         values.put(ATTRIBUT_STATUT, r.getStatut());
-        values.put(ATTRIBUT_DERNIER_RAPPEL, r.getDernier_rappel());
+        values.put(ATTRIBUT_PROCHAIN_RAPPEL, r.getProchain_rappel());
 
         System.out.println("----------------- Values du rappel " + values);
         database.insert(TABLE_RAPPEL, null, values);
@@ -117,17 +117,6 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
     public void initData() {
         if (this.getAllMedicaments().isEmpty()) {
             this.onUpgrade(this.getWritableDatabase(), 1, 2);
-
-            //Tests
-            /*
-            Medicament med1 = new Medicament(null,"Med1", "test", "Pillule", 25.0);
-            Medicament med2 = new Medicament(null,"Med2", "fab", "Sirop", 33.5);
-            Medicament med3 = new Medicament(null,"Med3", "boiron", "granules", 100.0);
-
-            addMedicament(med1);
-            addMedicament(med2);
-            addMedicament(med3);
-            */
         }
     }
 
@@ -192,7 +181,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
         values.put(ATTRIBUT_HEURE, r.getHeure());
         values.put(ATTRIBUT_REPETITION, r.getRepetition());
         values.put(ATTRIBUT_STATUT, r.getStatut());
-        values.put(ATTRIBUT_DERNIER_RAPPEL, r.getDernier_rappel());
+        values.put(ATTRIBUT_PROCHAIN_RAPPEL, r.getProchain_rappel());
 
         String selection = ATTRIBUT_ID_RAPPEL + " LIKE ?";
         String id_rappel = (String) String.valueOf(r.getId_rappel());
@@ -257,7 +246,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
             rappel.setHeure(cursor.getString(2));
             rappel.setRepetition(cursor.getInt(3));
             rappel.setStatut(cursor.getInt(4));
-            rappel.setDernier_rappel(cursor.getString(5));
+            rappel.setProchain_rappel(cursor.getString(5));
         }
 
         database.close();
@@ -282,7 +271,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
             rappel.setHeure(cursor.getString(2));
             rappel.setRepetition(cursor.getInt(3));
             rappel.setStatut(cursor.getInt(4));
-            rappel.setDernier_rappel(cursor.getString(5));
+            rappel.setProchain_rappel(cursor.getString(5));
 
             listeRappels.add(rappel);
         }
@@ -329,7 +318,7 @@ public class MedicamentPersistance extends SQLiteOpenHelper {
             rappel.setHeure(cursor.getString(2));
             rappel.setRepetition(cursor.getInt(3));
             rappel.setStatut(cursor.getInt(4));
-            rappel.setDernier_rappel(cursor.getString(5));
+            rappel.setProchain_rappel(cursor.getString(5));
 
             listeRappels.add(rappel);
         }
