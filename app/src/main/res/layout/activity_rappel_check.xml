@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Heure"
+                    android:text="@string/heure"
                     android:textSize="20sp" />
 
                 <TextView
@@ -71,7 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="100dp"
                 android:background="@color/colorPrimary"
-                android:text="Valider la prise"
+                android:text="@string/valider_la_prise"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />

@@ -74,10 +74,11 @@
                 android:id="@+id/medicine_add_et_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="10"
+                android:hint="Comprimé, Granules, Sirop..."
                 android:inputType="textPersonName"
-                android:textSize="17sp"
-                android:autofillHints="" />
+                android:textSize="17sp" />
 
             <Space
                 android:layout_width="match_parent"

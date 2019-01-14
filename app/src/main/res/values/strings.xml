@@ -25,4 +25,13 @@
     <string name="data_consulter_button">Consulter mes données</string>
     <string name="data_delete_description">Vous pouvez supprimer l\'ensemble de vos données. Une fois supprimées, les données ne peuvent pas être récupérées.</string>
     <string name="data_delete_button">Supprimer toutes mes données</string>
+    <string name="donnees_enregistrees_list">Vos données enregistrées</string>
+    <string name="formulaire_rappel_titre">Renseigner les informations sur le rappel</string>
+    <string name="heure_rappel_formulaire">Heure du rappel*</string>
+    <string name="repetition_rappel_form1">Répéter le rappel tous les</string>
+    <string name="repetition_rappel_form_jours">jours</string>
+    <string name="repetition_rappel_form_legende">Laissez le champ vide pour une répétition quotidienne</string>
+    <string name="rappels_enregistres">Vos rappels enregistrés</string>
+    <string name="heure">Heure</string>
+    <string name="valider_la_prise">Valider la prise</string>
 </resources>

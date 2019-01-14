@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Vos données enregistrées"
+                    android:text="@string/donnees_enregistrees_list"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 

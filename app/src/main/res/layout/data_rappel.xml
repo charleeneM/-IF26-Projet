@@ -49,7 +49,7 @@
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/data_tv_rappel_dernier_rappel"
+            android:id="@+id/data_tv_rappel_prochain_rappel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Vos rappels enregistrés"
+                android:text="@string/rappels_enregistres"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 

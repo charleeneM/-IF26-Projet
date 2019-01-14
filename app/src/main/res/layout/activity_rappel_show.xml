@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Heure"
+                    android:text="@string/heure"
                     android:textSize="18sp" />
 
                 <TextView
